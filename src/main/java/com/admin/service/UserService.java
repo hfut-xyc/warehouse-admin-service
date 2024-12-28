@@ -1,6 +1,8 @@
 package com.admin.service;
 
-import com.admin.entity.User;
+import com.admin.pojo.dto.LoginDTO;
+import com.admin.pojo.dto.SelectListDTO;
+import com.admin.pojo.entity.User;
 import com.admin.mapper.UserMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,9 +19,10 @@ public class UserService {
 	@Resource
 	private UserMapper userMapper;
 
-	public User login(User loginForm) throws Exception {
-		String username = loginForm.getUsername();
-		String password = loginForm.getPassword();
+	// 用户登录，根据用户名查询用户
+	public User login(LoginDTO dto) throws Exception {
+		String username = dto.getUsername();
+		String password = dto.getPassword();
 		if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
 			throw new Exception("用户名和密码不能为空");
 		}
@@ -31,17 +34,14 @@ public class UserService {
 		return user;
 	}
 
-	/**
-	 * 根据用户名分页查询管理员用户
-	 * @param keyword
-	 * @return
-	 */
-	public Map<String, Object> selectListByName(Integer page, Integer pageSize, String keyword) {
-		Integer count = userMapper.count(keyword);
-		List<User> userList = userMapper.selectListByName(page, pageSize, keyword);
+	// 根据用户名分页查询管理员用户
+	public Map<String, Object> selectListByName(SelectListDTO dto) {
+		Integer total = userMapper.selectCountByName(dto.getKeyword());
+		List<User> userList = userMapper.selectListByName(
+				(dto.getPage() - 1) * dto.getPageSize(), dto.getPageSize(), dto.getKeyword());
 
 		Map<String, Object> map = new HashMap<>();
-		map.put("total", count);
+		map.put("total", total);
 		map.put("userList", userList);
 		return map;
 	}

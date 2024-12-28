@@ -1,27 +1,31 @@
 package com.admin.mapper;
 
-import com.admin.entity.Warehouse;
-import org.apache.ibatis.annotations.*;
+import com.admin.pojo.entity.Warehouse;
+import com.admin.pojo.vo.WarehouseVO;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 @Mapper
 public interface WarehouseMapper {
 
-	Integer count(String keyword);
-
-	List<Warehouse> selectListByName(@Param("keyword") String keyword);
-
-	@Select("select id from tb_warehouse where name=#{name}")
-	Warehouse selectByName(String name);
-
-	@Insert("insert into tb_warehouse(name) values (#{name})")
 	Integer insert(Warehouse warehouse);
 
-	@Update("update tb_warehouse set name=#{name} where id=#{id}")
 	Integer update(Warehouse warehouse);
 
-	@Delete("delete from tb_warehouse where id=#{id}")
-	Integer deleteById(Integer id);
+	Integer deleteById(Integer warehouseId);
+
+	Warehouse selectByWid(Integer warehouseId);
+
+	Warehouse selectByName(String warehouseName);
+
+	Integer selectCountByName(String keyword);
+
+	List<WarehouseVO> selectListByName(
+			@Param("page") Integer page,
+			@Param("pageSize") Integer pageSize,
+			@Param("keyword") String keyword
+	);
 
 }

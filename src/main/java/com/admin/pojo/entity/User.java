@@ -1,4 +1,4 @@
-package com.admin.entity;
+package com.admin.pojo.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,21 +10,12 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
-
-    public final static int ROLE_USER = 0;
-    public final static int ROLE_ADMIN = 1;
-
-    private Integer id;
+    private Integer userId;
     private String username;
     private String password;
     private Integer role;
 
-    private Integer createUserId;
-    private String createUserName;
     private LocalDateTime createTime;
-
-    private Integer updateUserId;
-    private String updateUserName;
     private LocalDateTime updateTime;
 
 }

@@ -1,21 +1,45 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.admin.mapper.ProductMapper">
 
-    <select id="count" resultType="java.lang.Integer">
-        select count(*) from tb_product
-        <if test="keyword != null">
-            where name like concat('%', #{keyword}, '%')
-        </if>
-    </select>
+  <insert id="insert">
+    insert into tb_product(product_name) values (#{productName})
+  </insert>
 
-    <select id="selectListByName" resultType="com.admin.entity.Product">
-        select * from tb_product
-        <if test="keyword != null">
-            where name like concat('%',#{keyword},'%')
-        </if>
-    </select>
+  <update id="update">
+    update tb_product set product_name=#{productName}
+    where product_id=#{productId}
+  </update>
+
+  <delete id="deleteById">
+    delete from tb_product where product_id=#{productId}
+  </delete>
+
+  <select id="selectCountByName" resultType="java.lang.Integer">
+    select count(*) from tb_product
+    <if test="keyword != null">
+      where product_name like concat('%', #{keyword}, '%')
+    </if>
+  </select>
+
+  <select id="selectByPid" resultType="com.admin.pojo.entity.Product">
+    select product_id from tb_product
+    where product_id=#{productId}
+  </select>
+
+  <select id="selectByName" resultType="com.admin.pojo.entity.Product">
+    select product_id from tb_product
+    where product_name=#{productName}
+  </select>
+
+  <select id="selectListByName" resultType="com.admin.pojo.vo.ProductVO">
+    select * from tb_product
+    <if test="keyword != null">
+      where product_name like concat('%',#{keyword},'%')
+    </if>
+    limit #{page}, #{pageSize}
+  </select>
 
 </mapper>

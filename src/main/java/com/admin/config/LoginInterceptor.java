@@ -1,6 +1,5 @@
 package com.admin.config;
 
-import com.admin.entity.User;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -28,7 +27,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         Integer role = (Integer) claims.get("role");
         String path = request.getServletPath();
         if (path.startsWith("/user") || "/warehouse".equals(path)) {
-            if (role == User.ROLE_USER) {
+            if (role == Constants.ROLE_USER) {
                 throw new Exception("权限不足，请联系管理员");
             }
         }

@@ -1,4 +1,4 @@
-package com.admin.entity;
+package com.admin.pojo.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,18 +10,11 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Order implements Serializable {
-
-	private Integer id;
-	private Integer warehouseId;
+public class Product implements Serializable {
 	private Integer productId;
-	private Integer count;
+	private String productName;
 
-	private Integer createUserId;
-	private String createUserName;
 	private LocalDateTime createTime;
-
-	private Integer updateUserId;
-	private String updateUserName;
 	private LocalDateTime updateTime;
+
 }

@@ -1,9 +1,11 @@
 package com.admin.service;
 
-import com.admin.entity.Product;
-import com.admin.entity.Warehouse;
 import com.admin.mapper.ProductMapper;
 import com.admin.mapper.WarehouseProductMapper;
+import com.admin.pojo.dto.SelectListDTO;
+import com.admin.pojo.entity.Product;
+import com.admin.pojo.vo.ProductVO;
+import com.admin.pojo.vo.WarehouseVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,34 +23,21 @@ public class ProductService {
 	@Resource
 	private WarehouseProductMapper warehouseProductMapper;
 
-	/**
-	 * 根据产品名分页查询产品以及所在的仓库
-	 * @param keyword
-	 * @return
-	 */
-	public Map<String, Object> selectListByName(String keyword) {
-		Integer count = productMapper.count(keyword);
-		List<Product> productList = productMapper.selectListByName(keyword);
-		productList.forEach(product -> {
-			List<Warehouse> warehouseList = warehouseProductMapper.listWarehouse(product.getId());
-			product.setWarehouseList(warehouseList);
-		});
+	// 根据产品名分页查询产品以及所在的仓库
+	public Map<String, Object> selectListByName(SelectListDTO dto) {
+		Integer total = productMapper.selectCountByName(dto.getKeyword());
+		List<ProductVO> productList = productMapper.selectListByName(
+				(dto.getPage() - 1) * dto.getPageSize(), dto.getPageSize(), dto.getKeyword());
 
 		Map<String, Object> map = new HashMap<>();
-		map.put("total", count);
+		map.put("total", total);
 		map.put("productList", productList);
 		return map;
 	}
 
-	/**
-	 * 添加产品
-	 * @param product
-	 * @return
-	 * @throws Exception
-	 */
 	@Transactional
 	public Integer insert(Product product) throws Exception {
-		Product temp = productMapper.selectByName(product.getName());
+		Product temp = productMapper.selectByName(product.getProductName());
 		if (temp != null) {
 			throw new Exception("产品名已存在");
 		}
@@ -70,8 +59,12 @@ public class ProductService {
 
 
 	@Transactional
-	public Integer deleteById(Integer id) throws Exception  {
-		Integer res = productMapper.deleteById(id);
+	public Integer deleteById(Integer productId) throws Exception  {
+		List<WarehouseVO> warehouseList = warehouseProductMapper.selectWarehouseByPid(productId);
+		if (!warehouseList.isEmpty()) {
+			throw new Exception("产品仍有库存，无法删除");
+		}
+		Integer res = productMapper.deleteById(productId);
 		if (res != 1) {
 			throw new Exception("删除产品失败");
 		}

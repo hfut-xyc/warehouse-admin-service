@@ -1,8 +1,9 @@
 package com.admin.controller;
 
-import com.admin.entity.User;
+import com.admin.pojo.vo.ResultVO;
+import com.admin.pojo.dto.SelectListDTO;
+import com.admin.pojo.entity.User;
 import com.admin.service.UserService;
-import com.admin.vo.Result;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -15,31 +16,28 @@ public class UserController {
     @Resource
     private UserService userService;
 
-    @GetMapping("/list")
-    public Result listUser(
-        @RequestParam(defaultValue = "1") Integer page,
-        @RequestParam(defaultValue = "10") Integer pageSize,
-        @RequestParam(required = false) String keyword)
+    @PostMapping("/list")
+    public ResultVO list(@RequestBody SelectListDTO body)
     {
-        Map<String, Object> map = userService.selectListByName((page - 1) * pageSize, pageSize, keyword);
-        return Result.ok("查询成功", map);
+        Map<String, Object> map = userService.selectListByName(body);
+        return ResultVO.ok("查询成功", map);
     }
 
     @PostMapping("")
-    public Result insertUser(@RequestBody User user) throws Exception {
+    public ResultVO insert(@RequestBody User user) throws Exception {
         Integer res = userService.insert(user);
-        return Result.ok("添加成功", res);
+        return ResultVO.ok("添加成功", res);
     }
 
     @PutMapping("")
-    public Result updateUser(@RequestBody User user) throws Exception {
+    public ResultVO update(@RequestBody User user) throws Exception {
         Integer res = userService.update(user);
-        return Result.ok("修改成功", res);
+        return ResultVO.ok("修改成功", res);
     }
 
     @DeleteMapping("")
-    public Result deleteUserById(@RequestParam Integer id) throws Exception {
+    public ResultVO delete(@RequestParam Integer id) throws Exception {
         Integer res = userService.deleteById(id);
-        return Result.ok("删除成功", res);
+        return ResultVO.ok("删除成功", res);
     }
 }

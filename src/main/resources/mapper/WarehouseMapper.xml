@@ -1,20 +1,45 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.admin.mapper.WarehouseMapper">
+  <insert id="insert">
+    insert into tb_warehouse(warehouse_name) values (#{warehouseName})
+  </insert>
 
-    <select id="count" resultType="java.lang.Integer">
-        select count(*) from tb_warehouse
-        <if test="keyword != null">
-            where name like concat('%', #{keyword}, '%')
-        </if>
-    </select>
+  <update id="update">
+    update tb_warehouse set warehouse_name=#{warehouseName}
+    where warehouse_id=#{id}
+  </update>
 
-    <select id="selectListByName" resultType="com.admin.entity.Warehouse">
-        select * from tb_warehouse
-        <if test="keyword != null">
-            where name like concat('%', #{keyword}, '%')
-        </if>
-    </select>
+  <delete id="deleteById">
+    delete from tb_warehouse where warehouse_id=#{warehouseId}
+  </delete>
+
+  <select id="selectCountByName" resultType="java.lang.Integer">
+    select count(*) from tb_warehouse
+    <if test="keyword != null">
+      where warehouse_name like concat('%', #{keyword}, '%')
+    </if>
+  </select>
+
+  <select id="selectByWid" resultType="com.admin.pojo.entity.Warehouse">
+    select warehouse_id from tb_warehouse
+    where warehouse_id=#{warehouseId}
+  </select>
+
+  <select id="selectByName" resultType="com.admin.pojo.entity.Warehouse">
+    select warehouse_id from tb_warehouse
+    where warehouse_name=#{warehouseName}
+  </select>
+
+  <select id="selectListByName" resultType="com.admin.pojo.vo.WarehouseVO">
+    select * from tb_warehouse
+    <if test="keyword != null">
+      where warehouse_name like concat('%', #{keyword}, '%')
+    </if>
+    limit #{page}, #{pageSize}
+  </select>
+
+
 </mapper>

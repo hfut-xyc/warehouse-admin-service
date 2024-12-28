@@ -1,8 +1,9 @@
 package com.admin.controller;
 
-import com.admin.entity.Order;
+import com.admin.pojo.dto.SelectListDTO;
+import com.admin.pojo.entity.Order;
 import com.admin.service.OrderService;
-import com.admin.vo.Result;
+import com.admin.pojo.vo.ResultVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,26 +18,23 @@ public class OrderController {
     @Resource
     private OrderService orderService;
 
-    @GetMapping("/list")
-    public Result listOrder(
-            @RequestParam(defaultValue = "1") Integer page,
-            @RequestParam(defaultValue = "10") Integer pageSize,
-            @RequestParam(required = false) String date)
+    @PostMapping("/list")
+    public ResultVO list(@RequestBody SelectListDTO body)
     {
-        Map<String, Object> map = orderService.selectListByDate((page - 1) * pageSize, pageSize, date);
-        return Result.ok("查询成功", map);
+        Map<String, Object> map = orderService.selectListByDate(body);
+        return ResultVO.ok("查询成功", map);
     }
 
     @PostMapping("")
-    public Result insertOrder(@RequestBody Order order) throws Exception {
+    public ResultVO insert(@RequestBody Order order) throws Exception {
         Integer res = orderService.insert(order);
-        return Result.ok("添加成功", res);
+        return ResultVO.ok("添加成功", res);
     }
 
 
     @DeleteMapping("")
-    public Result deleteById(@RequestParam Integer id) throws Exception {
+    public ResultVO deleteById(@RequestParam Integer id) throws Exception {
         Integer res = orderService.deleteById(id);
-        return Result.ok("删除成功", res);
+        return ResultVO.ok("删除成功", res);
     }
 }

@@ -3,17 +3,36 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.admin.mapper.WarehouseProductMapper">
+  <insert id="insert">
+    insert into tb_warehouse_product(wid, pid, stock)
+    values (#{wid}, #{pid}, #{count})
+  </insert>
 
-  <select id="listWarehouse" resultType="com.admin.entity.Warehouse">
-    select warehouse_id as id, warehouse_name as name, count
+  <update id="updateCount">
+    update tb_warehouse_product
+    set stock = stock + #{count}
+    where wid = #{wid}
+      and pid = #{pid}
+      and stock + #{count} >= 0
+  </update>
+
+  <select id="selectByWidPid" resultType="com.admin.pojo.entity.WarehouseProduct">
+    select *
     from tb_warehouse_product
-    where product_id=#{productId}
+    where wid = #{wid}
+      and pid = #{pid}
   </select>
 
-  <select id="listProduct" resultType="com.admin.entity.Product">
-    select product_id as id, product_name as name, count
+  <select id="selectWarehouseByPid" resultType="com.admin.pojo.vo.WarehouseVO">
+    select warehouse_id, warehouse_name, stock
     from tb_warehouse_product
-    where warehouse_id=#{warehouseId}
+    where product_id = #{pid}
+  </select>
+
+  <select id="selectProductByWid" resultType="com.admin.pojo.vo.ProductVO">
+    select product_id, product_name, stock
+    from tb_warehouse_product
+    where warehouse_id = #{wid}
   </select>
 
 </mapper>

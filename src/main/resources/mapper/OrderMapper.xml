@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.admin.mapper.OrderMapper">
 
-  <select id="countByDate" resultType="java.lang.Integer">
+  <insert id="insert">
+    insert into tb_order(eid, wid, pid, count, status) values (#{uid}, #{wid}, #{pid}, #{count}, #{status})
+  </insert>
+
+  <delete id="deleteById">
+    delete from tb_order where id=#{id}
+  </delete>
+
+  <select id="selectCountByDate" resultType="java.lang.Integer">
     select count(*) from tb_order
     <where>
       <if test="date != null ">
@@ -13,14 +21,13 @@
     </where>
   </select>
 
-  <select id="selectListByDate" resultType="com.admin.entity.Order">
-        select * from tb_order
-          <where>
-            <if test="date != null ">
-              create_time like concat(#{date}, '%')
-            </if>
-          </where>
-            limit #{page}, #{pageSize}
-    </select>
-
+  <select id="selectListByDate" resultType="com.admin.pojo.entity.Order">
+    select * from tb_order
+    <where>
+      <if test="date != null ">
+        create_time like concat(#{date}, '%')
+      </if>
+    </where>
+    limit #{page}, #{pageSize}
+  </select>
 </mapper>
