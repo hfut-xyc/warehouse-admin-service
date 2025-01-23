@@ -69,8 +69,8 @@ public class UserService {
 	}
 
 	@Transactional
-	public Integer deleteById(Integer id) throws Exception {
-		Integer res = userMapper.deleteById(id);
+	public Integer deleteById(Integer userId) throws Exception {
+		Integer res = userMapper.deleteById(userId);
 		if (res != 1) {
 			throw new Exception("删除用户失败");
 		}

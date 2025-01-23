@@ -5,21 +5,20 @@
 <mapper namespace="com.admin.mapper.UserMapper">
 
   <insert id="insert">
-    insert into tb_user(username, password)
-    VALUES (#{username}, #{password})
+    insert into tb_user(username, password, role)
+    values (#{username}, #{password}, #{role})
   </insert>
 
   <update id="update">
     update tb_user
     set password=#{password},
         role=#{role}
-    where id = #{id}
+    where user_id = #{userId}
   </update>
 
   <delete id="deleteById">
-    delete
-    from tb_user
-    where id = #{id}
+    delete from tb_user
+    where user_id = #{userId}
   </delete>
 
   <select id="selectCountByName" resultType="java.lang.Integer">
@@ -30,7 +29,7 @@
   </select>
 
   <select id="selectByName" resultType="com.admin.pojo.entity.User">
-    select id, username, password, role
+    select user_id, username, password, role
     from tb_user
     where username = #{username}
   </select>

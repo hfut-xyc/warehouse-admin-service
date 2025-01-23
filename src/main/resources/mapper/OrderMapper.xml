@@ -5,11 +5,12 @@
 <mapper namespace="com.admin.mapper.OrderMapper">
 
   <insert id="insert">
-    insert into tb_order(eid, wid, pid, count, status) values (#{uid}, #{wid}, #{pid}, #{count}, #{status})
+    insert into tb_order(warehouse_id, warehouse_name, product_id, product_name, count)
+    values (#{warehouseId}, #{warehouseName}, #{productId}, #{productName}, #{count})
   </insert>
 
   <delete id="deleteById">
-    delete from tb_order where id=#{id}
+    delete from tb_order where order_id=#{orderId}
   </delete>
 
   <select id="selectCountByDate" resultType="java.lang.Integer">

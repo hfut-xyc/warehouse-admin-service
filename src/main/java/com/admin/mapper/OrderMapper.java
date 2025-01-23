@@ -10,7 +10,7 @@ public interface OrderMapper {
 
     Integer insert(Order order);
 
-    Integer deleteById(Integer id);
+    Integer deleteById(Integer orderId);
 
     Integer selectCountByDate(String date);
 

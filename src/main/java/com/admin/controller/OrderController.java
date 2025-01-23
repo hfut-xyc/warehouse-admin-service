@@ -25,12 +25,18 @@ public class OrderController {
         return ResultVO.ok("查询成功", map);
     }
 
-    @PostMapping("")
-    public ResultVO insert(@RequestBody Order order) throws Exception {
-        Integer res = orderService.insert(order);
-        return ResultVO.ok("添加成功", res);
+    @PostMapping("/update-stock")
+    public ResultVO updateStockOrder(@RequestBody Order order) throws Exception {
+        Integer res = orderService.updateStockOrder(order);
+        return ResultVO.ok("创建订单成功", res);
     }
 
+
+    @PostMapping("/insert-stock")
+    public ResultVO insertStockOrder(@RequestBody Order order) throws Exception {
+        Integer res = orderService.insertStockOrder(order);
+        return ResultVO.ok("创建订单成功", res);
+    }
 
     @DeleteMapping("")
     public ResultVO deleteById(@RequestParam Integer id) throws Exception {

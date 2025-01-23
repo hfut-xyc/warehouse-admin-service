@@ -14,7 +14,7 @@ public interface WarehouseProductMapper {
     Integer insert(WarehouseProduct warehouseProduct);
 
     // 更新原有库存记录
-    Integer updateCount(WarehouseProduct warehouseProduct);
+    Integer updateStock(WarehouseProduct warehouseProduct);
 
     // 查询库存记录
     WarehouseProduct selectByWidPid(Integer wid, Integer pid);
