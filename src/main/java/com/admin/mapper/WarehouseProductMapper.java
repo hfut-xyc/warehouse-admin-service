@@ -17,12 +17,12 @@ public interface WarehouseProductMapper {
     Integer updateStock(WarehouseProduct warehouseProduct);
 
     // 查询库存记录
-    WarehouseProduct selectByWidPid(Integer wid, Integer pid);
+    WarehouseProduct selectByWidPid(Integer warehouseId, Integer productId);
 
     // 查询产品pid所在的所有仓库
-    List<WarehouseVO> selectWarehouseByPid(Integer pid);
+    List<WarehouseVO> selectWarehouseByPid(Integer productId);
 
     // 查询仓库wid包含的所有产品
-    List<ProductVO> selectProductByWid(Integer wid);
+    List<ProductVO> selectProductByWid(Integer warehouseId);
 
 }

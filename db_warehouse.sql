@@ -31,7 +31,7 @@ CREATE TABLE `tb_warehouse`
     PRIMARY KEY (warehouse_id)
 ) ENGINE = InnoDB
   CHARSET = utf8
-  AUTO_INCREMENT = 10000000;
+  AUTO_INCREMENT = 10000001;
 
 CREATE TABLE `tb_product`
 (
@@ -42,7 +42,7 @@ CREATE TABLE `tb_product`
     PRIMARY KEY (product_id)
 ) ENGINE = InnoDB
   CHARSET = utf8
-  AUTO_INCREMENT = 20000000;
+  AUTO_INCREMENT = 20000001;
 
 CREATE TABLE `tb_warehouse_product`
 (
@@ -101,10 +101,10 @@ VALUES ('华为p60'),
 
 
 INSERT INTO `tb_warehouse_product`(warehouse_id, warehouse_name, product_id, product_name, stock)
-VALUES (10000001, '1号仓库', 20000000, '华为p60', 100),
-       (10000001, '1号仓库', 20000001, '小米10', 200),
-       (10000002, '2号仓库', 20000001, '小米10', 300),
-       (10000002, '2号仓库', 20000002, 'iPhone X', 400),
-       (10000003, '3号仓库', 20000000, '华为p60', 200),
-       (10000003, '3号仓库', 20000001, '小米10', 500);
+VALUES (10000001, '1号仓库', 20000001, '华为p60', 1000),
+       (10000001, '1号仓库', 20000002, '小米10', 200),
+       (10000002, '2号仓库', 20000002, '小米10', 300),
+       (10000002, '2号仓库', 20000003, 'iPhone X', 400),
+       (10000003, '3号仓库', 20000001, '华为p60', 200),
+       (10000003, '3号仓库', 20000002, '小米10', 500);
 

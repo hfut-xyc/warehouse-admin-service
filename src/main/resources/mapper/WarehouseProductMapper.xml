@@ -5,12 +5,12 @@
 <mapper namespace="com.admin.mapper.WarehouseProductMapper">
   <insert id="insert">
     insert into tb_warehouse_product(warehouse_id, warehouse_name, product_id, product_name, stock)
-    values (#{warehouseId}, #{warehouseName}, #{productId}, #{productName}, #{count})
+    values (#{warehouseId}, #{warehouseName}, #{productId}, #{productName}, #{stock})
   </insert>
 
   <update id="updateStock">
     update tb_warehouse_product
-    set stock = stock + #{count}
+    set stock = #{stock}
     where warehouse_id = #{warehouseId}
       and product_id = #{productId}
   </update>
