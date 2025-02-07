@@ -16,22 +16,15 @@
   </update>
 
   <select id="selectByWidPid" resultType="com.admin.pojo.entity.WarehouseProduct">
-    select *
+    select warehouse_id, warehouse_name, product_id, product_name, stock
     from tb_warehouse_product
-    where warehouse_id = #{warehouseId}
+    where 1=1
+    <if test="warehouseId != null">
+      and warehouse_id = #{warehouseId}
+    </if>
+    <if test="productId != null">
       and product_id = #{productId}
-  </select>
-
-  <select id="selectWarehouseByPid" resultType="com.admin.pojo.vo.WarehouseVO">
-    select warehouse_id, warehouse_name, stock
-    from tb_warehouse_product
-    where product_id = #{productId}
-  </select>
-
-  <select id="selectProductByWid" resultType="com.admin.pojo.vo.ProductVO">
-    select product_id, product_name, stock
-    from tb_warehouse_product
-    where warehouse_id = #{warehouseId}
+    </if>
   </select>
 
 </mapper>

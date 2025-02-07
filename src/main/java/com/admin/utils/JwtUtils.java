@@ -1,4 +1,4 @@
-package com.admin.config;
+package com.admin.utils;
 
 
 import io.jsonwebtoken.Claims;
@@ -11,21 +11,18 @@ import java.util.Map;
 
 public class JwtUtils {
 
-    private static final long TTL = 36000000;
-    private static final String SECRET = "JWT_TOKEN_2024";
-
     public static String createToken(Map<String, Object> claims) {
         String token = Jwts.builder()
                 .setClaims(claims)
-                .setExpiration(new Date(System.currentTimeMillis() + TTL))
-                .signWith(SignatureAlgorithm.HS256, SECRET)
+                .setExpiration(new Date(System.currentTimeMillis() + Constants.JWT_TTL))
+                .signWith(SignatureAlgorithm.HS256, Constants.JWT_SECRET)
                 .compact();
         return token;
     }
 
     public static Claims parseToken(String token) {
         Claims claims = Jwts.parser()
-                .setSigningKey(SECRET)
+                .setSigningKey(Constants.JWT_SECRET)
                 .parseClaimsJws(token)
                 .getBody();
 

@@ -4,8 +4,7 @@ import com.admin.mapper.WarehouseMapper;
 import com.admin.mapper.WarehouseProductMapper;
 import com.admin.pojo.dto.SelectListDTO;
 import com.admin.pojo.entity.Warehouse;
-import com.admin.pojo.vo.ProductVO;
-import com.admin.pojo.vo.WarehouseVO;
+import com.admin.pojo.entity.WarehouseProduct;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,18 +22,6 @@ public class WarehouseService {
     @Resource
     private WarehouseProductMapper warehouseProductMapper;
 
-    //根据仓库名分页查询仓库
-    public Map<String, Object> selectListByName(SelectListDTO dto) {
-        Integer total = warehouseMapper.selectCountByName(dto.getKeyword());
-        List<WarehouseVO> warehouseList = warehouseMapper.selectListByName(
-                (dto.getPage() - 1) * dto.getPageSize(), dto.getPageSize(), dto.getKeyword());
-
-        Map<String, Object> map = new HashMap<>();
-        map.put("total", total);
-        map.put("warehouseList", warehouseList);
-        return map;
-    }
-
     // 添加仓库
     @Transactional
 	public Integer insert(Warehouse warehouse) throws Exception {
@@ -46,7 +33,7 @@ public class WarehouseService {
         if (res != 1) {
             throw new Exception("添加仓库失败");
         }
-        return 1;
+        return res;
     }
 
 
@@ -56,13 +43,13 @@ public class WarehouseService {
         if (res != 1) {
 			throw new Exception("修改仓库失败");
 		}
-        return 1;
+        return res;
     }
 
     @Transactional
-    public Integer deleteById(Integer warehouseId) throws Exception  {
-        List<ProductVO> productList = warehouseProductMapper.selectProductByWid(warehouseId);
-        if (!productList.isEmpty()) {
+    public Integer deleteById(String warehouseId) throws Exception  {
+        List<WarehouseProduct> records = warehouseProductMapper.selectByWidPid(warehouseId, null);
+        if (!records.isEmpty()) {
             throw new Exception("仓库仍有库存，无法删除");
         }
         Integer res = warehouseMapper.deleteById(warehouseId);
@@ -70,6 +57,20 @@ public class WarehouseService {
             throw new Exception("删除仓库失败");
         }
         return res;
+    }
+
+    /**
+     * 根据仓库名分页查询仓库
+     */
+    public Map<String, Object> selectListByName(SelectListDTO dto) {
+        Integer total = warehouseMapper.selectCountByName(dto.getKeyword());
+        List<Warehouse> warehouseList = warehouseMapper.selectListByName(
+                (dto.getPage() - 1) * dto.getPageSize(), dto.getPageSize(), dto.getKeyword());
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("total", total);
+        map.put("warehouseList", warehouseList);
+        return map;
     }
 
 }

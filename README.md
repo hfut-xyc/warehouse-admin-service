@@ -3,13 +3,6 @@
 - 本仓库为后端代码，基于 SpringBoot 2.0 和 MySQL 8.0 实现 
 - 前端代码位于 https://github.com/hfut-xyc/warehouse-admin-ui
 
-## 接口设计
-后端接口 url 的采用 RESTful 风格，以用户为例
-- 查询用户：GET /user/list
-- 添加用户：POST /user
-- 修改用户：PUT /user
-- 删除用户：DELETE /user
-
 ## 开发运行
 1. 安装 [JDK 1.8](https://www.oracle.com/java/technologies/downloads/archive/)
 2. 安装 [Maven 3.6.1](https://archive.apache.org/dist/maven/maven-3/3.6.1/binaries/)

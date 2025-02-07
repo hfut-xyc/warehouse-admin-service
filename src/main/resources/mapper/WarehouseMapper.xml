@@ -4,7 +4,8 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.admin.mapper.WarehouseMapper">
   <insert id="insert">
-    insert into tb_warehouse(warehouse_name) values (#{warehouseName})
+    insert into tb_warehouse(warehouse_id, warehouse_name)
+    values (#{warehouseId}, #{warehouseName})
   </insert>
 
   <update id="update">
@@ -33,7 +34,7 @@
     where warehouse_name=#{warehouseName}
   </select>
 
-  <select id="selectListByName" resultType="com.admin.pojo.vo.WarehouseVO">
+  <select id="selectListByName" resultType="com.admin.pojo.entity.Warehouse">
     select * from tb_warehouse
     <if test="keyword != null">
       where warehouse_name like concat('%', #{keyword}, '%')

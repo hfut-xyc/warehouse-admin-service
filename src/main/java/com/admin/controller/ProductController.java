@@ -3,8 +3,8 @@ package com.admin.controller;
 import com.admin.mapper.WarehouseProductMapper;
 import com.admin.pojo.dto.SelectListDTO;
 import com.admin.pojo.entity.Product;
+import com.admin.pojo.entity.WarehouseProduct;
 import com.admin.pojo.vo.ResultVO;
-import com.admin.pojo.vo.WarehouseVO;
 import com.admin.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -24,19 +24,6 @@ public class ProductController {
     @Resource
     private WarehouseProductMapper warehouseProductMapper;
 
-    @PostMapping("/list")
-    public ResultVO list(@RequestBody SelectListDTO body)
-    {
-        Map<String, Object> map  = productService.selectListByName(body);
-        return ResultVO.ok("查询成功", map);
-    }
-
-    @PostMapping("/{productId}/warehouse")
-    public ResultVO warehouseList(@PathVariable Integer productId) {
-        List<WarehouseVO> warehouseList = warehouseProductMapper.selectWarehouseByPid(productId);
-        return ResultVO.ok("查询成功", warehouseList);
-    }
-
     @PostMapping("")
     public ResultVO insert(@RequestBody Product product) throws Exception {
         Integer res = productService.insert(product);
@@ -50,8 +37,20 @@ public class ProductController {
     }
 
     @DeleteMapping("")
-    public ResultVO delete(@RequestParam Integer id) throws Exception {
-        Integer res = productService.deleteById(id);
+    public ResultVO delete(@RequestParam String productId) throws Exception {
+        Integer res = productService.deleteById(productId);
         return ResultVO.ok("删除成功", res);
+    }
+
+    @PostMapping("/list")
+    public ResultVO list(@RequestBody SelectListDTO body) {
+        Map<String, Object> map = productService.selectListByName(body);
+        return ResultVO.ok("查询成功", map);
+    }
+
+    @GetMapping("/{productId}")
+    public ResultVO warehouseList(@PathVariable String productId) {
+        List<WarehouseProduct> records = warehouseProductMapper.selectByWidPid(null, productId);
+        return ResultVO.ok("查询成功", records);
     }
 }

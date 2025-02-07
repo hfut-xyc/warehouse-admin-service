@@ -10,13 +10,13 @@ public interface OrderMapper {
 
     Integer insert(Order order);
 
-    Integer deleteById(Integer orderId);
+    Integer deleteById(String orderId);
 
     Integer selectCountByDate(String date);
 
 	List<Order> selectListByDate(
 	        @Param("page") Integer page,
             @Param("pageSize") Integer pageSize,
-            @Param("date") String date
+            @Param("keyword") String keyword
     );
 }

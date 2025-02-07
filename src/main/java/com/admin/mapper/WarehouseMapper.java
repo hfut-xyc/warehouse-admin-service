@@ -1,7 +1,6 @@
 package com.admin.mapper;
 
 import com.admin.pojo.entity.Warehouse;
-import com.admin.pojo.vo.WarehouseVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -14,15 +13,15 @@ public interface WarehouseMapper {
 
 	Integer update(Warehouse warehouse);
 
-	Integer deleteById(Integer warehouseId);
+	Integer deleteById(String warehouseId);
 
-	Warehouse selectByWid(Integer warehouseId);
+	Warehouse selectByWid(String warehouseId);
 
 	Warehouse selectByName(String warehouseName);
 
 	Integer selectCountByName(String keyword);
 
-	List<WarehouseVO> selectListByName(
+	List<Warehouse> selectListByName(
 			@Param("page") Integer page,
 			@Param("pageSize") Integer pageSize,
 			@Param("keyword") String keyword

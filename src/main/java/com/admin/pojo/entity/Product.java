@@ -11,7 +11,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Product implements Serializable {
-	private Integer productId;
+	private Integer id;
+	private String productId;
 	private String productName;
 
 	private LocalDateTime createTime;

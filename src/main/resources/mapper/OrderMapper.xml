@@ -5,8 +5,10 @@
 <mapper namespace="com.admin.mapper.OrderMapper">
 
   <insert id="insert">
-    insert into tb_order(warehouse_id, warehouse_name, product_id, product_name, count)
-    values (#{warehouseId}, #{warehouseName}, #{productId}, #{productName}, #{count})
+    insert into tb_order(order_id, warehouse_id, warehouse_name,
+                         product_id, product_name, user_id, username, count, stock)
+    values (#{orderId}, #{warehouseId}, #{warehouseName},
+            #{productId}, #{productName}, 'A00001', 'admin', #{count}, #{stock})
   </insert>
 
   <delete id="deleteById">
@@ -16,8 +18,8 @@
   <select id="selectCountByDate" resultType="java.lang.Integer">
     select count(*) from tb_order
     <where>
-      <if test="date != null ">
-        create_time like concat(#{date}, '%')
+      <if test="keyword != null">
+        order_id like concat(#{keyword}, '%')
       </if>
     </where>
   </select>
@@ -25,8 +27,8 @@
   <select id="selectListByDate" resultType="com.admin.pojo.entity.Order">
     select * from tb_order
     <where>
-      <if test="date != null ">
-        create_time like concat(#{date}, '%')
+      <if test="keyword != null">
+        order_id like concat(#{keyword}, '%')
       </if>
     </where>
     limit #{page}, #{pageSize}

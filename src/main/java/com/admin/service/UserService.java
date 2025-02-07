@@ -1,9 +1,9 @@
 package com.admin.service;
 
+import com.admin.mapper.UserMapper;
 import com.admin.pojo.dto.LoginDTO;
 import com.admin.pojo.dto.SelectListDTO;
 import com.admin.pojo.entity.User;
-import com.admin.mapper.UserMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -18,6 +18,37 @@ public class UserService {
 
 	@Resource
 	private UserMapper userMapper;
+
+	@Transactional
+	public Integer insert(User user) throws Exception {
+		User temp = userMapper.selectByName(user.getUsername());
+		if (temp != null) {
+			throw new Exception("用户名已存在");
+		}
+		Integer res = userMapper.insert(user);
+		if (res != 1) {
+			throw new Exception("添加用户失败");
+		}
+		return res;
+	}
+
+	@Transactional
+	public Integer update(User user) throws Exception {
+		Integer res = userMapper.update(user);
+		if (res != 1) {
+			throw new Exception("修改用户失败");
+		}
+		return res;
+	}
+
+	@Transactional
+	public Integer deleteById(String userId) throws Exception {
+		Integer res = userMapper.deleteById(userId);
+		if (res != 1) {
+			throw new Exception("删除用户失败");
+		}
+		return res;
+	}
 
 	// 用户登录，根据用户名查询用户
 	public User login(LoginDTO dto) throws Exception {
@@ -46,34 +77,4 @@ public class UserService {
 		return map;
 	}
 
-	@Transactional
-	public Integer insert(User user) throws Exception {
-		User temp = userMapper.selectByName(user.getUsername());
-		if (temp != null) {
-			throw new Exception("用户名已存在");
-		}
-		Integer res = userMapper.insert(user);
-		if (res != 1) {
-			throw new Exception("添加用户失败");
-		}
-		return res;
-	}
-
-	@Transactional
-	public Integer update(User user) throws Exception {
-		Integer res = userMapper.update(user);
-		if (res != 1) {
-			throw new Exception("修改用户失败");
-		}
-		return res;
-	}
-
-	@Transactional
-	public Integer deleteById(Integer userId) throws Exception {
-		Integer res = userMapper.deleteById(userId);
-		if (res != 1) {
-			throw new Exception("删除用户失败");
-		}
-		return res;
-	}
 }

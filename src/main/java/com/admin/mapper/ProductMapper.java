@@ -1,7 +1,6 @@
 package com.admin.mapper;
 
 import com.admin.pojo.entity.Product;
-import com.admin.pojo.vo.ProductVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -14,15 +13,15 @@ public interface ProductMapper {
 
 	Integer update(Product product);
 
-	Integer deleteById(Integer productId);
+	Integer deleteById(String productId);
 
-	Product selectByPid(Integer productId);
+	Product selectByPid(String productId);
 
 	Product selectByName(String productName);
 
 	Integer selectCountByName(String keyword);
 
-	List<ProductVO> selectListByName(
+	List<Product> selectListByName(
 			@Param("page") Integer page,
 			@Param("pageSize") Integer pageSize,
 			@Param("keyword") String keyword

@@ -12,7 +12,7 @@ public interface UserMapper {
 
 	Integer update(User user);
 
-	Integer deleteById(Integer userId);
+	Integer deleteById(String userId);
 
 	User selectByName(String username);
 

@@ -5,16 +5,19 @@
 <mapper namespace="com.admin.mapper.ProductMapper">
 
   <insert id="insert">
-    insert into tb_product(product_name) values (#{productName})
+    insert into tb_product(product_id, product_name)
+    values (#{productId}, #{productName})
   </insert>
 
   <update id="update">
-    update tb_product set product_name=#{productName}
+    update tb_product
+    set product_name=#{productName}
     where product_id=#{productId}
   </update>
 
   <delete id="deleteById">
-    delete from tb_product where product_id=#{productId}
+    delete from tb_product
+    where product_id=#{productId}
   </delete>
 
   <select id="selectCountByName" resultType="java.lang.Integer">
@@ -34,7 +37,7 @@
     where product_name=#{productName}
   </select>
 
-  <select id="selectListByName" resultType="com.admin.pojo.vo.ProductVO">
+  <select id="selectListByName" resultType="com.admin.pojo.entity.Product">
     select * from tb_product
     <if test="keyword != null">
       where product_name like concat('%',#{keyword},'%')

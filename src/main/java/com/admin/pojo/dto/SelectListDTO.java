@@ -11,5 +11,4 @@ public class SelectListDTO {
     private Integer page = 1;
     private Integer pageSize = 10;
     private String keyword;
-    private String date;
 }

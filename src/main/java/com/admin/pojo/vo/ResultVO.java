@@ -14,11 +14,11 @@ public class ResultVO {
     private Object data;
 
     public static ResultVO ok(String message, Object data) {
-        return new ResultVO(0, message, data);
+        return new ResultVO(1, message, data);
     }
 
     public static ResultVO ok(String message) {
-        return new ResultVO(0, message, null);
+        return new ResultVO(1, message, null);
     }
 
     public static ResultVO error(String message) {
