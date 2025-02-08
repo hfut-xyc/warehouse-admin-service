@@ -44,13 +44,15 @@ public class OrderService {
         if (warehouse == null) {
             throw new Exception("仓库不存在");
         }
+        log.info(warehouse.toString());
+
         Product product = productMapper.selectByPid(order.getProductId());
         if (product == null) {
             throw new Exception("商品不存在");
         }
+        log.info(product.toString());
 
         String str = "" + warehouse.getWarehouseId() + product.getProductId();
-        log.info(str);
         synchronized (str.intern()) {
             // 先提交事务，再释放锁
             //OrderService proxy = (OrderService) AopContext.currentProxy();
@@ -67,20 +69,21 @@ public class OrderService {
             throw new Exception("库存不存在");
         }
         WarehouseProduct record = records.get(0);
+        log.info(record.toString());
+
         int newStock = record.getStock() + order.getCount();
         if (newStock < 0) {
             throw new Exception("库存不足");
         }
-        WarehouseProduct warehouseProduct = new WarehouseProduct();
-        warehouseProduct.setWarehouseId(order.getWarehouseId());
-        warehouseProduct.setProductId(order.getProductId());
-        warehouseProduct.setStock(newStock);
-        order.setStock(newStock);
-        log.info(warehouseProduct.toString());
-        Integer res = warehouseProductMapper.updateStock(warehouseProduct);
+
+        record.setStock(newStock);
+        log.info(record.toString());
+        Integer res = warehouseProductMapper.updateStock(record);
         if (res != 1) {
             throw new Exception("更新库存失败");
         }
+
+        order.setStock(newStock);
         order.setOrderId(OrderIdUtils.createOrderId());
         Integer res1 = orderMapper.insert(order);
         if (res1 != 1) {
@@ -96,10 +99,13 @@ public class OrderService {
         if (warehouse == null) {
             throw new Exception("仓库不存在");
         }
+        log.info(warehouse.toString());
+
         Product product = productMapper.selectByPid(order.getProductId());
         if (product == null) {
             throw new Exception("商品不存在");
         }
+        log.info(product.toString());
 
         try {
             lockInsertStock.lock();
@@ -113,27 +119,26 @@ public class OrderService {
 
     @Transactional
     public void insertStockOrder(Order order) throws Exception {
-        WarehouseProduct warehouseProduct = new WarehouseProduct();
-        warehouseProduct.setWarehouseId(order.getWarehouseId());
-        warehouseProduct.setProductId(order.getProductId());
-        warehouseProduct.setWarehouseName(order.getWarehouseName());
-        warehouseProduct.setProductName(order.getProductName());
-
-        List<WarehouseProduct> records = warehouseProductMapper.selectByWidPid(order.getWarehouseId(), order.getProductId());
+        List<WarehouseProduct> records = warehouseProductMapper.
+            selectByWidPid(order.getWarehouseId(), order.getProductId());
 
         if (records.isEmpty()) {
-            warehouseProduct.setStock(order.getCount());
+            WarehouseProduct record = new WarehouseProduct();
+            record.setWarehouseId(order.getWarehouseId());
+            record.setProductId(order.getProductId());
+            record.setWarehouseName(order.getWarehouseName());
+            record.setProductName(order.getProductName());
+            record.setStock(order.getCount());
             order.setStock(order.getCount());
-            Integer res = warehouseProductMapper.insert(warehouseProduct);
+            Integer res = warehouseProductMapper.insert(record);
             if (res != 1) {
                 throw new Exception("插入库存失败");
             }
         } else {
             WarehouseProduct record = records.get(0);
-            int newStock = record.getStock() + order.getCount();
-            warehouseProduct.setStock(newStock);
-            order.setStock(newStock);
-            Integer res = warehouseProductMapper.updateStock(warehouseProduct);
+            record.setStock(record.getStock() + order.getCount());
+            order.setStock(record.getStock() + order.getCount());
+            Integer res = warehouseProductMapper.updateStock(record);
             if (res != 1) {
                 throw new Exception("更新库存失败");
             }
@@ -160,7 +165,7 @@ public class OrderService {
     public Map<String, Object> selectListByDate(SelectListDTO dto) {
         Integer total = orderMapper.selectCountByDate(dto.getKeyword());
         List<Order> orderList = orderMapper.selectListByDate(
-                (dto.getPage() - 1) * dto.getPageSize(), dto.getPageSize(), dto.getKeyword());
+            (dto.getPage() - 1) * dto.getPageSize(), dto.getPageSize(), dto.getKeyword());
 
         Map<String, Object> map = new HashMap<>();
         map.put("total", total);

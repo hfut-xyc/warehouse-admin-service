@@ -16,59 +16,59 @@ import java.util.Map;
 @Service
 public class ProductService {
 
-	@Resource
-	private ProductMapper productMapper;
+    @Resource
+    private ProductMapper productMapper;
 
-	@Resource
-	private WarehouseProductMapper warehouseProductMapper;
+    @Resource
+    private WarehouseProductMapper warehouseProductMapper;
 
-	@Transactional
-	public Integer insert(Product product) throws Exception {
-		Product temp = productMapper.selectByName(product.getProductName());
-		if (temp != null) {
-			throw new Exception("产品名已存在");
-		}
-		Integer res = productMapper.insert(product);
-		if (res != 1) {
-			throw new Exception("添加产品失败");
-		}
-		return res;
-	}
+    @Transactional
+    public Integer insert(Product product) throws Exception {
+        Product temp = productMapper.selectByName(product.getProductName());
+        if (temp != null) {
+            throw new Exception("产品名已存在");
+        }
+        Integer res = productMapper.insert(product);
+        if (res != 1) {
+            throw new Exception("添加产品失败");
+        }
+        return res;
+    }
 
-	@Transactional
-	public Integer update(Product product) throws Exception  {
-		Integer res = productMapper.update(product);
-		if (res != 1) {
-			throw new Exception("修改产品失败");
-		}
-		return res;
-	}
+    @Transactional
+    public Integer update(Product product) throws Exception {
+        Integer res = productMapper.update(product);
+        if (res != 1) {
+            throw new Exception("修改产品失败");
+        }
+        return res;
+    }
 
 
-	@Transactional
-	public Integer deleteById(String productId) throws Exception  {
-		List<WarehouseProduct> records = warehouseProductMapper.selectByWidPid(null, productId);
-		if (!records.isEmpty()) {
-			throw new Exception("产品仍有库存，无法删除");
-		}
-		Integer res = productMapper.deleteById(productId);
-		if (res != 1) {
-			throw new Exception("删除产品失败");
-		}
-		return res;
-	}
+    @Transactional
+    public Integer deleteById(String productId) throws Exception {
+        List<WarehouseProduct> records = warehouseProductMapper.selectByWidPid(null, productId);
+        if (!records.isEmpty()) {
+            throw new Exception("产品仍有库存，无法删除");
+        }
+        Integer res = productMapper.deleteById(productId);
+        if (res != 1) {
+            throw new Exception("删除产品失败");
+        }
+        return res;
+    }
 
-	/**
-	 * 根据产品名分页查询产品
-	 */
-	public Map<String, Object> selectListByName(SelectListDTO dto) {
-		Integer total = productMapper.selectCountByName(dto.getKeyword());
-		List<Product> productList = productMapper.selectListByName(
-				(dto.getPage() - 1) * dto.getPageSize(), dto.getPageSize(), dto.getKeyword());
+    /**
+     * 根据产品名分页查询产品
+     */
+    public Map<String, Object> selectListByName(SelectListDTO dto) {
+        Integer total = productMapper.selectCountByName(dto.getKeyword());
+        List<Product> productList = productMapper.selectListByName(
+                (dto.getPage() - 1) * dto.getPageSize(), dto.getPageSize(), dto.getKeyword());
 
-		Map<String, Object> map = new HashMap<>();
-		map.put("total", total);
-		map.put("productList", productList);
-		return map;
-	}
+        Map<String, Object> map = new HashMap<>();
+        map.put("total", total);
+        map.put("productList", productList);
+        return map;
+    }
 }

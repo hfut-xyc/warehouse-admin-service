@@ -17,8 +17,9 @@ public interface WarehouseProductMapper {
 
     // 查询库存记录
     List<WarehouseProduct> selectByWidPid(
-            @Param("warehouseId") String warehouseId,
-            @Param("productId") String productId);
+        @Param("warehouseId") String warehouseId,
+        @Param("productId") String productId
+    );
 
     //// 查询产品pid所在的所有仓库
     //List<WarehouseVO> selectWarehouseByPid(String productId);

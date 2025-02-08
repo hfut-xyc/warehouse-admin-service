@@ -8,7 +8,7 @@
     insert into tb_order(order_id, warehouse_id, warehouse_name,
                          product_id, product_name, user_id, username, count, stock)
     values (#{orderId}, #{warehouseId}, #{warehouseName},
-            #{productId}, #{productName}, 'A00001', 'admin', #{count}, #{stock})
+            #{productId}, #{productName}, #{userId}, #{username}, #{count}, #{stock})
   </insert>
 
   <delete id="deleteById">

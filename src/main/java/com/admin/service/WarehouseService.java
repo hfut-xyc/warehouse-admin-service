@@ -24,11 +24,11 @@ public class WarehouseService {
 
     // 添加仓库
     @Transactional
-	public Integer insert(Warehouse warehouse) throws Exception {
+    public Integer insert(Warehouse warehouse) throws Exception {
         Warehouse temp = warehouseMapper.selectByName(warehouse.getWarehouseName());
-		if (temp != null) {
-			throw new Exception("仓库名称重复");
-		}
+        if (temp != null) {
+            throw new Exception("仓库名称重复");
+        }
         Integer res = warehouseMapper.insert(warehouse);
         if (res != 1) {
             throw new Exception("添加仓库失败");
@@ -37,17 +37,17 @@ public class WarehouseService {
     }
 
 
-	@Transactional
-	public Integer update(Warehouse warehouse) throws Exception  {
-		Integer res = warehouseMapper.update(warehouse);
+    @Transactional
+    public Integer update(Warehouse warehouse) throws Exception {
+        Integer res = warehouseMapper.update(warehouse);
         if (res != 1) {
-			throw new Exception("修改仓库失败");
-		}
+            throw new Exception("修改仓库失败");
+        }
         return res;
     }
 
     @Transactional
-    public Integer deleteById(String warehouseId) throws Exception  {
+    public Integer deleteById(String warehouseId) throws Exception {
         List<WarehouseProduct> records = warehouseProductMapper.selectByWidPid(warehouseId, null);
         if (!records.isEmpty()) {
             throw new Exception("仓库仍有库存，无法删除");

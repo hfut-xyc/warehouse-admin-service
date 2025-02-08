@@ -9,22 +9,22 @@ import java.util.List;
 @Mapper
 public interface ProductMapper {
 
-	Integer insert(Product product);
+    Integer insert(Product product);
 
-	Integer update(Product product);
+    Integer update(Product product);
 
-	Integer deleteById(String productId);
+    Integer deleteById(String productId);
 
-	Product selectByPid(String productId);
+    Product selectByPid(String productId);
 
-	Product selectByName(String productName);
+    Product selectByName(String productName);
 
-	Integer selectCountByName(String keyword);
+    Integer selectCountByName(String keyword);
 
-	List<Product> selectListByName(
-			@Param("page") Integer page,
-			@Param("pageSize") Integer pageSize,
-			@Param("keyword") String keyword
-	);
+    List<Product> selectListByName(
+        @Param("page") Integer page,
+        @Param("pageSize") Integer pageSize,
+        @Param("keyword") String keyword
+    );
 
 }

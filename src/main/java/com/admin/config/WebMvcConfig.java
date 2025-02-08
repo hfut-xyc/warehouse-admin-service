@@ -30,18 +30,18 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("*")
-                .allowedHeaders("*")
-                .allowedMethods("*")
-                .allowCredentials(true)
-                .maxAge(3600);
+            .allowedOrigins("*")
+            .allowedHeaders("*")
+            .allowedMethods("*")
+            .allowCredentials(true)
+            .maxAge(3600);
     }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor)
-                .addPathPatterns("/**")
-                .excludePathPatterns("/login");
+            .addPathPatterns("/**")
+            .excludePathPatterns("/login");
     }
 
     @Override
@@ -56,9 +56,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public ObjectMapper localDateTimeMapper() {
         JavaTimeModule module = new JavaTimeModule();
         module.addDeserializer(LocalDateTime.class,
-                new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         module.addSerializer(LocalDateTime.class,
-                new LocalDateTimeSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            new LocalDateTimeSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(FAIL_ON_UNKNOWN_PROPERTIES, false);

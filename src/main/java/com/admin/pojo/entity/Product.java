@@ -11,11 +11,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Product implements Serializable {
-	private Integer id;
-	private String productId;
-	private String productName;
+    private Integer id;
+    private String productId;
+    private String productName;
 
-	private LocalDateTime createTime;
-	private LocalDateTime updateTime;
+    private LocalDateTime createTime;
+    private LocalDateTime updateTime;
 
 }

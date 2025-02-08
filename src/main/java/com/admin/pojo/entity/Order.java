@@ -12,18 +12,18 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Order implements Serializable {
 
-	private Integer id;
-	private String orderId;
-	private String warehouseId;
-	private String warehouseName;
-	private String productId;
-	private String productName;
-	private String userId;
-	private String username;
-	private Integer count;
-	private Integer stock;
+    private Integer id;
+    private String orderId;
+    private String warehouseId;
+    private String warehouseName;
+    private String productId;
+    private String productName;
+    private String userId;
+    private String username;
+    private Integer count;
+    private Integer stock;
 
-	private LocalDateTime createTime;
-	private LocalDateTime updateTime;
+    private LocalDateTime createTime;
+    private LocalDateTime updateTime;
 
 }

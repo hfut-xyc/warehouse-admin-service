@@ -9,22 +9,22 @@ import java.util.List;
 @Mapper
 public interface WarehouseMapper {
 
-	Integer insert(Warehouse warehouse);
+    Integer insert(Warehouse warehouse);
 
-	Integer update(Warehouse warehouse);
+    Integer update(Warehouse warehouse);
 
-	Integer deleteById(String warehouseId);
+    Integer deleteById(String warehouseId);
 
-	Warehouse selectByWid(String warehouseId);
+    Warehouse selectByWid(String warehouseId);
 
-	Warehouse selectByName(String warehouseName);
+    Warehouse selectByName(String warehouseName);
 
-	Integer selectCountByName(String keyword);
+    Integer selectCountByName(String keyword);
 
-	List<Warehouse> selectListByName(
-			@Param("page") Integer page,
-			@Param("pageSize") Integer pageSize,
-			@Param("keyword") String keyword
-	);
+    List<Warehouse> selectListByName(
+		@Param("page") Integer page,
+		@Param("pageSize") Integer pageSize,
+		@Param("keyword") String keyword
+    );
 
 }
