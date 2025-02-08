@@ -22,9 +22,9 @@ public interface WarehouseMapper {
     Integer selectCountByName(String keyword);
 
     List<Warehouse> selectListByName(
-		@Param("page") Integer page,
-		@Param("pageSize") Integer pageSize,
-		@Param("keyword") String keyword
+        @Param("page") Integer page,
+        @Param("pageSize") Integer pageSize,
+        @Param("keyword") String keyword
     );
 
 }

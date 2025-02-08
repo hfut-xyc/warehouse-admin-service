@@ -1,5 +1,6 @@
 package com.admin.service;
 
+import com.admin.config.BusinessException;
 import com.admin.mapper.WarehouseMapper;
 import com.admin.mapper.WarehouseProductMapper;
 import com.admin.pojo.dto.SelectListDTO;
@@ -24,37 +25,37 @@ public class WarehouseService {
 
     // 添加仓库
     @Transactional
-    public Integer insert(Warehouse warehouse) throws Exception {
+    public Warehouse insert(Warehouse warehouse) throws BusinessException {
         Warehouse temp = warehouseMapper.selectByName(warehouse.getWarehouseName());
         if (temp != null) {
-            throw new Exception("仓库名称重复");
+            throw new BusinessException("仓库名称重复");
         }
         Integer res = warehouseMapper.insert(warehouse);
         if (res != 1) {
-            throw new Exception("添加仓库失败");
+            throw new BusinessException("添加仓库失败");
         }
-        return res;
+        return warehouse;
     }
 
 
     @Transactional
-    public Integer update(Warehouse warehouse) throws Exception {
+    public Warehouse update(Warehouse warehouse) throws BusinessException {
         Integer res = warehouseMapper.update(warehouse);
         if (res != 1) {
-            throw new Exception("修改仓库失败");
+            throw new BusinessException("修改仓库失败");
         }
-        return res;
+        return warehouse;
     }
 
     @Transactional
-    public Integer deleteById(String warehouseId) throws Exception {
+    public Integer deleteById(String warehouseId) throws BusinessException {
         List<WarehouseProduct> records = warehouseProductMapper.selectByWidPid(warehouseId, null);
         if (!records.isEmpty()) {
-            throw new Exception("仓库仍有库存，无法删除");
+            throw new BusinessException("仓库仍有库存，无法删除");
         }
         Integer res = warehouseMapper.deleteById(warehouseId);
         if (res != 1) {
-            throw new Exception("删除仓库失败");
+            throw new BusinessException("删除仓库失败");
         }
         return res;
     }

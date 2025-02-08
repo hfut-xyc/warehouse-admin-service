@@ -1,5 +1,6 @@
 package com.admin.service;
 
+import com.admin.config.BusinessException;
 import com.admin.mapper.ProductMapper;
 import com.admin.mapper.WarehouseProductMapper;
 import com.admin.pojo.dto.SelectListDTO;
@@ -23,37 +24,37 @@ public class ProductService {
     private WarehouseProductMapper warehouseProductMapper;
 
     @Transactional
-    public Integer insert(Product product) throws Exception {
+    public Product insert(Product product) throws BusinessException {
         Product temp = productMapper.selectByName(product.getProductName());
         if (temp != null) {
-            throw new Exception("产品名已存在");
+            throw new BusinessException("产品名已存在");
         }
         Integer res = productMapper.insert(product);
         if (res != 1) {
-            throw new Exception("添加产品失败");
+            throw new BusinessException("添加产品失败");
         }
-        return res;
+        return product;
     }
 
     @Transactional
-    public Integer update(Product product) throws Exception {
+    public Product update(Product product) throws BusinessException {
         Integer res = productMapper.update(product);
         if (res != 1) {
-            throw new Exception("修改产品失败");
+            throw new BusinessException("修改产品失败");
         }
-        return res;
+        return product;
     }
 
 
     @Transactional
-    public Integer deleteById(String productId) throws Exception {
+    public Integer deleteById(String productId) throws BusinessException {
         List<WarehouseProduct> records = warehouseProductMapper.selectByWidPid(null, productId);
         if (!records.isEmpty()) {
-            throw new Exception("产品仍有库存，无法删除");
+            throw new BusinessException("产品仍有库存，无法删除");
         }
         Integer res = productMapper.deleteById(productId);
         if (res != 1) {
-            throw new Exception("删除产品失败");
+            throw new BusinessException("删除产品失败");
         }
         return res;
     }

@@ -1,5 +1,6 @@
 package com.admin.controller;
 
+import com.admin.config.BusinessException;
 import com.admin.mapper.WarehouseProductMapper;
 import com.admin.pojo.dto.SelectListDTO;
 import com.admin.pojo.entity.Warehouse;
@@ -25,19 +26,19 @@ public class WarehouseController {
     private WarehouseProductMapper warehouseProductMapper;
 
     @PostMapping("")
-    public ResultVO insert(@RequestBody Warehouse warehouse) throws Exception {
-        Integer res = warehouseService.insert(warehouse);
+    public ResultVO insert(@RequestBody Warehouse warehouse) throws BusinessException {
+        Warehouse res = warehouseService.insert(warehouse);
         return ResultVO.ok("添加成功", res);
     }
 
     @PutMapping("")
-    public ResultVO update(@RequestBody Warehouse warehouse) throws Exception {
-        Integer res = warehouseService.update(warehouse);
+    public ResultVO update(@RequestBody Warehouse warehouse) throws BusinessException {
+        Warehouse res = warehouseService.update(warehouse);
         return ResultVO.ok("修改成功", res);
     }
 
-    @DeleteMapping("")
-    public ResultVO delete(@RequestParam String warehouseId) throws Exception {
+    @DeleteMapping("/{warehouseId}")
+    public ResultVO delete(@PathVariable String warehouseId) throws BusinessException {
         Integer res = warehouseService.deleteById(warehouseId);
         return ResultVO.ok("删除成功", res);
     }
@@ -48,6 +49,9 @@ public class WarehouseController {
         return ResultVO.ok("查询成功", map);
     }
 
+    /**
+     * 查询仓库详情
+     */
     @GetMapping("/{warehouseId}")
     public ResultVO productList(@PathVariable String warehouseId) {
         List<WarehouseProduct> records = warehouseProductMapper.selectByWidPid(warehouseId, null);

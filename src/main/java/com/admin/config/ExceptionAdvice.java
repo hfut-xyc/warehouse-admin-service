@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 @RestControllerAdvice
 public class ExceptionAdvice {
 
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(BusinessException.class)
     public ResultVO handleException(HttpServletRequest request, Exception e) {
         log.error("{}: {}", request.getRequestURI(), e.getMessage());
         return ResultVO.error(e.getMessage());
