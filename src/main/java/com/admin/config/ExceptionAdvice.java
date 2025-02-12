@@ -13,7 +13,13 @@ import javax.servlet.http.HttpServletRequest;
 public class ExceptionAdvice {
 
     @ExceptionHandler(BusinessException.class)
-    public ResultVO handleException(HttpServletRequest request, Exception e) {
+    public ResultVO handleBusinessException(HttpServletRequest request, Exception e) {
+        log.error("{}: {}", request.getRequestURI(), e.getMessage());
+        return ResultVO.error(e.getMessage());
+    }
+
+    @ExceptionHandler(AuthException.class)
+    public ResultVO handleAuthException(HttpServletRequest request, Exception e) {
         log.error("{}: {}", request.getRequestURI(), e.getMessage());
         return ResultVO.error(e.getMessage());
     }

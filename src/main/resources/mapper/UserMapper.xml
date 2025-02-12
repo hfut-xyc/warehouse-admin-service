@@ -5,8 +5,8 @@
 <mapper namespace="com.admin.mapper.UserMapper">
 
   <insert id="insert">
-    insert into tb_user(username, password, role)
-    values (#{username}, #{password}, #{role})
+    insert into tb_user(user_id, username, password, role)
+    values (#{userId}, #{username}, #{password}, #{role})
   </insert>
 
   <update id="update">
