@@ -1,6 +1,7 @@
 package com.admin.config;
 
 
+import io.jsonwebtoken.JwtException;
 import lombok.extern.slf4j.Slf4j;
 import com.admin.pojo.vo.ResultVO;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,7 +19,7 @@ public class ExceptionAdvice {
         return ResultVO.error(e.getMessage());
     }
 
-    @ExceptionHandler(AuthException.class)
+    @ExceptionHandler({AuthException.class, JwtException.class})
     public ResultVO handleAuthException(HttpServletRequest request, Exception e) {
         log.error("{}: {}", request.getRequestURI(), e.getMessage());
         return ResultVO.error(e.getMessage());
